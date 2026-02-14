@@ -29,8 +29,7 @@ import json
 
 base_url = "https://fantasy.premierleague.com/api/"
 
-with psy_pg.connect(
-    "dbname=test_db user=local_testing password=local_testing_password host=localhost port=5432"
+with psy_pg.connect("dbname=test_db user=local_testing password=local_testing_password host=localhost port=5432"
 ) as conn:
     
     with conn.cursor() as cur:

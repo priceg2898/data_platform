@@ -1,7 +1,8 @@
 services:
   postgres:
     build:
-      context: ./postgres       # Folder with Dockerfile
+      context: /home/greg/fpl_data_platform      # Folder with Dockerfile
+      dockerfile: ./docker/postgres/Dockerfile
     container_name: postgres_local
     ports:
       - "5432:5432"
@@ -11,6 +12,10 @@ services:
       POSTGRES_DB: test_db
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+  test_linux:
+    build:
+      context: /home/greg/fpl_data_platform       # Folder with Dockerfile
+      dockerfile: ./docker/linux_folder/Dockerfile
+    container_name: linux_local
 volumes:
   pgdata:

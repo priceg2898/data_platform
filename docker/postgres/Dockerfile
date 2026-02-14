@@ -7,6 +7,6 @@ ENV POSTGRES_DB=test_db
 
 # Copy SQL scripts into docker-entrypoint-initdb.d
 # Scripts here run automatically on first container startup
-COPY 01_schemas.sql 02_tables.sql 03_views.sql /docker-entrypoint-initdb.d/
+COPY docker/postgres/01_schemas.sql docker/postgres/02_tables.sql docker/postgres/03_views.sql /docker-entrypoint-initdb.d/
 
 EXPOSE 5432

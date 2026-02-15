@@ -5,12 +5,12 @@ import json
 
 all_endpoints = [   "bootstrap-static/",
                     "events/",
-                    "game_settings/",
-                    "phases/",
-                    "teams/",
-                    "total_players/",
+                    #"game_settings/",
+                    #"phases/",
+                    #"teams/",
+                    #"total_players/",
                     "elements/",
-                    "element_types/",
+                    #"element_types/",
                     "fixtures/",
                     "event-status/",
                     "team/set-piece-notes/"]
@@ -21,7 +21,7 @@ all_endpoints = [   "bootstrap-static/",
                     #"leagues-classic/{league_id}/standings/",
                     #"entry/{manager_id}/event/{event_id}/picks/"
 
-endpoints = [all_endpoints[0]]
+endpoints = all_endpoints
 
 import psycopg2 as psy_pg
 import requests
@@ -44,4 +44,4 @@ with psy_pg.connect("dbname=test_db user=local_testing password=local_testing_pa
 
                 cur.execute(payload, (base_url, e, json.dumps(data)))
             else:
-                print("Error:", response.status_code)
+                print("Error:", f"{base_url} {e} {response.status_code}")

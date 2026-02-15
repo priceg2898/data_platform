@@ -20,7 +20,7 @@ RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ingestion/etl/__main__.py /app
+COPY etl/fpl_api_extract_and_load.py /app
 
 CMD ["tail", "-f", "/dev/null"]
 

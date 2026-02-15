@@ -18,7 +18,7 @@ services:
       context: /home/greg/fpl_data_platform       # Folder with Dockerfile
       dockerfile: ./docker/linux_folder/Dockerfile
     volumes: 
-      - /home/greg/fpl_data_platform/ingestion/etl:/app
+      - /home/greg/fpl_data_platform/etl:/app
     container_name: linux_local
 
 volumes:

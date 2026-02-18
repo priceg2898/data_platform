@@ -16,15 +16,30 @@ services:
     build:
       context: .
       dockerfile: docker/container__scripts/Dockerfile
+    command: poetry run dagster api grpc -h 0.0.0.0 -p 4000 -m data_platform
+    ports:
+      - "4000:4000"
     volumes: 
       - ./scripts:/work_dir
       - ./.dbt:/root/.dbt:ro 
     working_dir: /work_dir
     depends_on:
       - postgres_container
+      - dagster-webserver
+      - dagster-daemon
     environment:
       DB_HOST: postgres
-    command: sleep infinity
+   # command: sleep infinity
+
+  dagster-webserver:
+    image: dagster/dagster:1.10.0
+    command: dagster-webserver -h 0.0.0.0 -p 3000 -w workspace.yaml
+    ports:
+      - "3000:3000"
+
+  dagster-daemon:
+    image: dagster/dagster:1.10.0
+    command: dagster-daemon run
 
 volumes:
   pgdata:

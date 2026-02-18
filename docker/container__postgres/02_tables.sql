@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS bronze.raw_landing (
+CREATE TABLE IF NOT EXISTS public.bronze__raw_landing (
     id SERIAL PRIMARY KEY,
     base_url TEXT NOT NULL,
     endpoint TEXT NOT NULL,
@@ -6,26 +6,3 @@ CREATE TABLE IF NOT EXISTS bronze.raw_landing (
     imported_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS bronze.teams (
-  id int PRIMARY KEY,
-  code int,
-  pulse_id int,
-  name text,
-  short_name text,
-  team_division int,
-  played int,
-  win int,
-  draw int,
-  loss int,
-  points int,
-  position int,
-  form text,
-  strength int,
-  strength_attack_home int,
-  strength_attack_away int,
-  strength_defence_home int,
-  strength_defence_away int,
-  strength_overall_home int,
-  strength_overall_away int,
-  unavailable boolean
-);

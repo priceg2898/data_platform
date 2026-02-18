@@ -1,0 +1,21 @@
+fpl:
+  target: dev           # default target
+  outputs:
+    dev:
+      type: postgres
+      host: postgres_container
+      user: local_testing
+      password: local_testing_password
+      port: 5432
+      dbname: database
+      schema: public
+      threads: 4
+    prod:
+      type: postgres
+      host: "{{ env_var('DBT_HOST') }}"
+      user: "{{ env_var('DBT_USER') }}"
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      port: 5432
+      dbname: fpl_prod
+      schema: public
+      threads: 8

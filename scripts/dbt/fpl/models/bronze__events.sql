@@ -1,33 +1,5 @@
-CREATE OR REPLACE VIEW bronze.v_teams AS (
-SELECT imported_at, rl.id AS import_id, endpoint as api_endpoint, t.*
-FROM bronze.raw_landing rl,
-LATERAL jsonb_to_recordset(raw_json->'teams') AS t(
-    id int,
-    code int,
-    pulse_id int,
-    name text,
-    short_name text,
-    team_division int,
-    played int,
-    win int,
-    draw int,
-    loss int,
-    points int,
-    position int,
-    form text,
-    strength int,
-    strength_attack_home int,
-    strength_attack_away int,
-    strength_defence_home int,
-    strength_defence_away int,
-    strength_overall_home int,
-    strength_overall_away int,
-    unavailable boolean
-));
-
-CREATE OR REPLACE VIEW bronze.v_events AS (
 SELECT imported_at, rl.id AS import_id, endpoint as api_endpoint, e.*
- FROM bronze.raw_landing rl,
+ FROM public.bronze__raw_landing rl,
  LATERAL jsonb_to_recordset(raw_json->'events') AS e(
      id                          int,
      name                        text,
@@ -58,7 +30,4 @@ SELECT imported_at, rl.id AS import_id, endpoint as api_endpoint, e.*
      overrides                   jsonb,
      chip_plays                  jsonb,
      top_element_info            jsonb
- ));
-
-
-
+ )

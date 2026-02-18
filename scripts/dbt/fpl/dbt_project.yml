@@ -1,0 +1,13 @@
+name: fpl
+config-version: 2
+
+profile: fpl
+
+target-path: "target"
+clean-targets: 
+  - "target"
+
+models:
+  fpl:  # matches your project name
+    materialized: view
+

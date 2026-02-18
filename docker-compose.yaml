@@ -18,6 +18,7 @@ services:
       dockerfile: docker/container__scripts/Dockerfile
     volumes: 
       - ./scripts:/work_dir
+      - ./.dbt:/root/.dbt:ro 
     working_dir: /work_dir
     depends_on:
       - postgres_container

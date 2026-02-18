@@ -23,3 +23,4 @@ LATERAL jsonb_to_recordset(raw_json->'teams') AS t(
     strength_overall_away int,
     unavailable boolean
 )
+WHERE endpoint = 'bootstrap-static/'

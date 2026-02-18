@@ -1,6 +1,6 @@
 SELECT imported_at, rl.id AS import_id, endpoint as api_endpoint, e.*
- FROM public.bronze__raw_landing rl,
- LATERAL jsonb_to_recordset(raw_json->'events') AS e(
+FROM public.bronze__raw_landing rl,
+LATERAL jsonb_to_recordset(raw_json->'events') AS e(
      id                          int,
      name                        text,
      is_next                     boolean,
@@ -31,3 +31,4 @@ SELECT imported_at, rl.id AS import_id, endpoint as api_endpoint, e.*
      chip_plays                  jsonb,
      top_element_info            jsonb
  )
+WHERE endpoint = 'bootstrap-static/'

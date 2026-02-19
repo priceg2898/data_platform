@@ -9,37 +9,35 @@ services:
       POSTGRES_USER: local_testing
       POSTGRES_PASSWORD: local_testing_password
       POSTGRES_DB: database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U local_testing"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
   
   scripts_container:
     build:
       context: .
       dockerfile: docker/container__scripts/Dockerfile
-    command: poetry run dagster api grpc -h 0.0.0.0 -p 4000 -m data_platform
+    command: tail -f /dev/null
     ports:
       - "4000:4000"
-    volumes: 
-      - ./scripts:/work_dir
-      - ./.dbt:/root/.dbt:ro 
+    volumes:
+      - ./docker/container__scripts/pyproject.toml:/work_dir/pyproject.toml:ro
+      - ./docker/container__scripts/poetry.lock:/work_dir/poetry.lock:ro
+      - ./.dbt:/root/.dbt
+      - ./scripts:/work_dir/src
     working_dir: /work_dir
     depends_on:
       - postgres_container
-      - dagster-webserver
-      - dagster-daemon
     environment:
       DB_HOST: postgres
    # command: sleep infinity
 
-  dagster-webserver:
-    image: dagster/dagster:1.10.0
-    command: dagster-webserver -h 0.0.0.0 -p 3000 -w workspace.yaml
-    ports:
-      - "3000:3000"
-
-  dagster-daemon:
-    image: dagster/dagster:1.10.0
-    command: dagster-daemon run
-
 volumes:
   pgdata:
+
+networks:
+  app-network:

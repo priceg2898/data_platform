@@ -14,9 +14,6 @@ psycopg2-binary = "2.9.11"
 requests = "2.32.5"
 urllib3 = "2.6.3"
 dbt-postgres = "1.10.*"
-dagster = "^1.8.0"
-dagster-postgres = "^0.28.14"
-dagster-dbt = "^0.28.14"
 
 [tool.dagster]
 module_name = "data_platform"

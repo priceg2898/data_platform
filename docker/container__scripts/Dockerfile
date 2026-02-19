@@ -23,7 +23,7 @@ COPY docker/container__scripts/pyproject.toml docker/container__scripts/poetry.l
 RUN poetry export -f requirements.txt --output requirements.txt --without-hashes \
     && pip install --no-cache-dir -r requirements.txt
 
-CMD ["tail", "-f", "/dev/null"]
+# CMD ["tail", "-f", "/dev/null"]
 
 
 

@@ -21,7 +21,7 @@
 #                                Default: ''
 #
 # Feel free to modify this file to suit your needs.
----
+
 x-airflow-common:
   &airflow-common
   # In order to add custom dependencies or upgrade provider distributions you can use your extended image.
@@ -35,10 +35,10 @@ x-airflow-common:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
-    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow_user:airflow@postgres_container/airflow
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres_container/airflow
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
@@ -51,10 +51,11 @@ x-airflow-common:
     # The following line can be used to set a custom config file, stored in the local config folder
     AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'
   volumes:
-    - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
-    - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
-    - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
-    - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags:z
+    - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs:z
+    - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config:z
+    - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins:z
+    - ${AIRFLOW_PROJ_DIR:-.}/scripts:/opt/airflow/scripts:z   # <- add this line
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -63,9 +64,38 @@ x-airflow-common:
 
 services:
 
+  postgres_container:
+    build:
+      context: .     # Folder with Dockerfile
+      dockerfile: ./docker/container__postgres/Dockerfile
+    ports:
+      - "5432:5432" # not needed for docker networking, just if I want to docker exec into the container
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  scripts_container:
+    build:
+      context: .
+      dockerfile: docker/container__scripts/Dockerfile
+    image: fpl_data_platform-scripts_container:latest
+#      volumes:
+#        - ./scripts:/opt/airflow/scripts
+
   airflow-apiserver:
     <<: *airflow-common
     command: api-server
+    #environment:
+    #  AIRFLOW__WEBSERVER__BASE_URL: http://localhost:8080
+    #  AIRFLOW__CORE__HOSTNAME_CALLABLE: socket.gethostname
     ports:
       - "8080:8080"
     healthcheck:
@@ -77,10 +107,15 @@ services:
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
 
   airflow-scheduler:
     <<: *airflow-common
     command: scheduler
+    #environment:
+    #  AIRFLOW__WEBSERVER__BASE_URL: http://localhost:8080
+    #  AIRFLOW__CORE__HOSTNAME_CALLABLE: socket.gethostname
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
       interval: 30s
@@ -90,10 +125,17 @@ services:
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
 
   airflow-dag-processor:
     <<: *airflow-common
     command: dag-processor
+    #environment:
+    #  AIRFLOW__WEBSERVER__BASE_URL: http://localhost:8080
+    #  AIRFLOW__CORE__HOSTNAME_CALLABLE: socket.gethostname
     healthcheck:
       test: ["CMD-SHELL", 'airflow jobs check --job-type DagProcessorJob --hostname "$${HOSTNAME}"']
       interval: 30s
@@ -103,10 +145,16 @@ services:
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - ./dags:/opt/airflow/dags
 
   airflow-triggerer:
     <<: *airflow-common
     command: triggerer
+    #environment:
+    #  AIRFLOW__WEBSERVER__BASE_URL: http://localhost:8080
+    #  AIRFLOW__CORE__HOSTNAME_CALLABLE: socket.gethostname
     healthcheck:
       test: ["CMD-SHELL", 'airflow jobs check --job-type TriggererJob --hostname "$${HOSTNAME}"']
       interval: 30s
@@ -116,6 +164,8 @@ services:
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
+    volumes:
+      - ./dags:/opt/airflow/dags
 
   airflow-cli:
     <<: *airflow-common

@@ -18,12 +18,11 @@ RUN pip install --upgrade pip \
     && pip install poetry \
     && pip install poetry-plugin-export
 
-COPY docker/container__scripts/pyproject.toml docker/container__scripts/poetry.lock /work_dir
+COPY docker/container__scripts/pyproject.toml docker/container__scripts/poetry.lock /work_dir/
+COPY dags /opt/airflow/dags
+COPY scripts /work_dir/scripts
 
-RUN poetry export -f requirements.txt --output requirements.txt --without-hashes \
+RUN poetry export -f requirements.txt \
+    --output requirements.txt \
+    --without-hashes \
     && pip install --no-cache-dir -r requirements.txt
-
-# CMD ["tail", "-f", "/dev/null"]
-
-
-

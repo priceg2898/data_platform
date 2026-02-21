@@ -60,10 +60,12 @@ x-airflow-common:
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
-    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__FERNET_KEY: 'urDM2DJGMQ8g-vkxZyklfonUSfN9qJRhc-jRxshWLO0='
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
+    AIRFLOW__API_AUTH__JWT_SECRET: '7fG9hQ2xLp4W8dRzV1sYmN6bE3jK0tUaXcF5vHqS9yJ2pLdRwZ8nMbTxQkV1uYfH'
+    AIRFLOW__API__SECRET_KEY: 'b7b9e074dcce5aca879a2cfb13f63d0214973cdd2c1a5a9a24f79938e27728218c0cc5e3d0927f3e7985c3107f559eaa846217eba3bd3699296772894c884ac3'
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server
@@ -90,12 +92,15 @@ x-airflow-common:
 services:
   postgres:
     image: postgres:16
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
       POSTGRES_DB: airflow
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
+      - ./docker/postgres_container_entrypoint:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 10s
@@ -107,6 +112,13 @@ services:
     build:
       dockerfile: docker/container__scripts/Dockerfile
     image: fpl_data_platform-scripts_container:latest
+    <<: *airflow-common
+    environment:
+      DBT_PROFILES_DIR: /work_dir/scripts/dbt
+     # AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW__API_AUTH__JWT_SECRET}
+     # AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW__CORE__FERNET_KEY}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
 
   redis:
     # Redis is limited to 7.2-bookworm due to licencing change
@@ -149,6 +161,11 @@ services:
       retries: 5
       start_period: 30s
     restart: always
+    user: "0:0"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -172,6 +189,7 @@ services:
   airflow-worker:
     <<: *airflow-common
     command: celery worker
+    user: root
     healthcheck:
       # yamllint disable rule:line-length
       test:
@@ -187,6 +205,11 @@ services:
       # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
       DUMB_INIT_SETSID: "0"
     restart: always
+   # user: "0:0"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
     depends_on:
       <<: *airflow-common-depends-on
       airflow-apiserver:

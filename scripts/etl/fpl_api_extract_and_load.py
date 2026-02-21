@@ -29,7 +29,7 @@ import json
 
 base_url = "https://fantasy.premierleague.com/api/"
 
-with psy_pg.connect("dbname=database user=local_testing password=local_testing_password host=postgres_container"
+with psy_pg.connect("dbname=analytics user=analytics_user password=pw host=postgres"
 ) as conn:
     
     with conn.cursor() as cur:

@@ -3,11 +3,11 @@ fpl:
   outputs:
     dev:
       type: postgres
-      host: postgres_container
-      user: local_testing
-      password: local_testing_password
+      host: postgres
+      user: analytics_user
+      password: pw
       port: 5432
-      dbname: database
+      dbname: analytics
       schema: public
       threads: 4
     prod:

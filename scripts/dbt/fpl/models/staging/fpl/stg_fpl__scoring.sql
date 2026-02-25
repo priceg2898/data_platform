@@ -1,10 +1,20 @@
+WITH latest_import AS (
+
+    SELECT *
+    FROM {{ ref('stg_fpl__latest_import') }}
+    WHERE endpoint = 'bootstrap-static/'
+
+),
+
+scoring AS (
+
 SELECT
-    rl.imported_at,
-    rl.id AS import_id,
+    li.imported_at,
+    li.id AS import_id,
     endpoint AS api_endpoint,
     s.*
-FROM public.bronze__raw_landing rl,
-LATERAL jsonb_to_record(rl.raw_json->'game_config'->'scoring') AS s(
+FROM latest_import li,
+LATERAL jsonb_to_record(li.raw_json->'game_config'->'scoring') AS s(
     bps int,
     bonus int,
     saves int,
@@ -40,5 +50,7 @@ LATERAL jsonb_to_record(rl.raw_json->'game_config'->'scoring') AS s(
     expected_goals_conceded int,
     expected_goal_involvements int,
     clearances_blocks_interceptions int
+    )
 )
-WHERE endpoint = 'bootstrap-static/'
+
+select * from scoring

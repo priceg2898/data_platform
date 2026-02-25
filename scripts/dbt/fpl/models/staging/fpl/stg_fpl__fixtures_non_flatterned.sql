@@ -1,6 +1,18 @@
+{{ config(
+    materialized='ephemeral'
+) }}
+
+WITH latest_import AS (
+
+    SELECT *
+    FROM {{ ref('stg_fpl__latest_import') }}
+    WHERE endpoint = 'fixtures/'
+),
+
+fixtures as (
 SELECT
-    rl.imported_at,
-    rl.id AS import_id,
+    li.imported_at,
+    li.id AS import_id,
     endpoint AS api_endpoint,
     f.id,
     f.code,
@@ -26,7 +38,7 @@ SELECT
     f.team_h_difficulty,
     f.finished_provisional,
     f.provisional_start_time
-FROM bronze__raw_landing rl,
+FROM latest_import li,
 LATERAL jsonb_array_elements(raw_json) AS f_item,
 LATERAL jsonb_to_record(f_item) AS f(
     id int,
@@ -47,4 +59,6 @@ LATERAL jsonb_to_record(f_item) AS f(
     finished_provisional boolean,
     provisional_start_time boolean
 )
-WHERE endpoint = 'fixtures/'
+)
+
+SELECT * FROM fixtures

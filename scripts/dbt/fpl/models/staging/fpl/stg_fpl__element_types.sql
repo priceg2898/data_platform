@@ -1,9 +1,17 @@
+WITH latest_import AS (
+    SELECT *
+    FROM {{ ref('stg_fpl__latest_import') }}
+    WHERE endpoint = 'bootstrap-static/'
+),
+
+element_types AS
+(
 SELECT
     imported_at,
-    rl.id AS import_id,
+    li.id AS import_id,
     endpoint AS api_endpoint,
     e.*
-FROM public.bronze__raw_landing rl,
+FROM latest_import li,
 LATERAL jsonb_to_recordset(raw_json->'element_types') AS e(
     id                      int,
     plural_name             text,
@@ -19,4 +27,7 @@ LATERAL jsonb_to_recordset(raw_json->'element_types') AS e(
     singular_name_short     text,
     sub_positions_locked    jsonb
 )
-WHERE endpoint = 'bootstrap-static/'
+
+)
+
+select * from element_types

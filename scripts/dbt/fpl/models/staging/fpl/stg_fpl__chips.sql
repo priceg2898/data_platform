@@ -1,9 +1,19 @@
+WITH latest_import AS (
+
+    SELECT *
+    FROM {{ ref('stg_fpl__latest_import') }}
+    WHERE endpoint = 'bootstrap-static/'
+
+),
+
+chips AS (
+
 SELECT
-    rl.imported_at,
-    rl.id AS import_id,
+    li.imported_at,
+    li.id AS import_id,
     endpoint AS api_endpoint,
     c.*
-FROM public.bronze__raw_landing rl,
+FROM latest_import li,
 LATERAL jsonb_to_recordset(raw_json->'chips') AS c(
     id          int,
     name        text,
@@ -13,4 +23,7 @@ LATERAL jsonb_to_recordset(raw_json->'chips') AS c(
     stop_event  int,
     start_event int
 )
-WHERE endpoint = 'bootstrap-static/'
+
+)
+
+SELECT * FROM chips

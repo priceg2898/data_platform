@@ -29,8 +29,7 @@ import json
 
 base_url = "https://fantasy.premierleague.com/api/"
 
-with psy_pg.connect("dbname=analytics user=analytics_user password=pw host=postgres"
-) as conn:
+with psy_pg.connect("dbname=analytics user=analytics_user password=pw host=postgres") as conn:
     
     with conn.cursor() as cur:
         
@@ -40,7 +39,7 @@ with psy_pg.connect("dbname=analytics user=analytics_user password=pw host=postg
             if response.status_code == 200:
                 data = response.json()
 
-                payload = "INSERT INTO public.bronze__raw_landing (base_url, endpoint, raw_json) VALUES (%s, %s, %s)"
+                payload = "INSERT INTO public.fpl_api__raw_landing (base_url, endpoint, raw_json) VALUES (%s, %s, %s)"
 
                 cur.execute(payload, (base_url, e, json.dumps(data)))
             else:

@@ -1,10 +1,20 @@
+WITH latest_import AS (
+
+    SELECT *
+    FROM {{ ref('stg_fpl__latest_import') }}
+    WHERE endpoint = 'bootstrap-static/'
+
+),
+
+rules AS (
+
 SELECT
-    rl.imported_at,
-    rl.id AS import_id,
+    li.imported_at,
+    li.id AS import_id,
     endpoint AS api_endpoint,
     r.*
-FROM public.bronze__raw_landing rl,
-LATERAL jsonb_to_record(rl.raw_json->'game_config'->'rules') AS r(
+FROM latest_import li,
+LATERAL jsonb_to_record(li.raw_json->'game_config'->'rules') AS r(
     cup_type int,
     transfers_cap int,
     squad_squadplay int,
@@ -39,5 +49,7 @@ LATERAL jsonb_to_record(rl.raw_json->'game_config'->'rules') AS r(
     league_max_size_public_classic int,
     league_max_ko_rounds_private_h2h int,
     league_ko_first_instead_of_random boolean
+    )
 )
-WHERE endpoint = 'bootstrap-static/'
+
+select * from rules

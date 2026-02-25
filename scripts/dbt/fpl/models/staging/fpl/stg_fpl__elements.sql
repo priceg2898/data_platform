@@ -1,9 +1,18 @@
+WITH latest_import AS (
+
+    SELECT *
+    FROM {{ ref('stg_fpl__latest_import') }}
+    WHERE endpoint = 'bootstrap-static/'
+),
+
+elements_ AS (
+
 SELECT
-    rl.imported_at,
-    rl.id AS import_id,
+    li.imported_at,
+    li.id AS import_id,
     endpoint AS api_endpoint,
     e.*
-FROM public.bronze__raw_landing rl,
+FROM latest_import li,
 LATERAL jsonb_to_recordset(raw_json->'elements') AS e(
     id int,
     bps int,
@@ -109,4 +118,7 @@ LATERAL jsonb_to_recordset(raw_json->'elements') AS e(
     corners_and_indirect_freekicks_text text,
     corners_and_indirect_freekicks_order int
 )
-WHERE endpoint = 'bootstrap-static/'
+
+)
+
+SELECT * fROM elements_

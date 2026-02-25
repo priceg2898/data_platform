@@ -1,5 +1,14 @@
-SELECT imported_at, rl.id AS import_id, endpoint as api_endpoint, e.*
-FROM public.bronze__raw_landing rl,
+WITH latest_import AS (
+
+    SELECT *
+    FROM {{ ref('stg_fpl__latest_import') }}
+    WHERE endpoint = 'bootstrap-static/'
+),
+
+events AS (
+
+SELECT imported_at, li.id AS import_id, endpoint as api_endpoint, e.*
+FROM latest_import li,
 LATERAL jsonb_to_recordset(raw_json->'events') AS e(
      id                          int,
      name                        text,
@@ -30,5 +39,7 @@ LATERAL jsonb_to_recordset(raw_json->'events') AS e(
      overrides                   jsonb,
      chip_plays                  jsonb,
      top_element_info            jsonb
- )
-WHERE endpoint = 'bootstrap-static/'
+    )
+    
+)
+select * from events

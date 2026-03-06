@@ -3,7 +3,11 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /work_dir
+ENV PYTHONPATH="/work_dir/scripts/src"
+WORKDIR /work_dir/scripts/src
+
+
+
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -21,6 +25,7 @@ RUN pip install --upgrade pip \
 COPY docker/container__scripts/pyproject.toml docker/container__scripts/poetry.lock /work_dir/
 COPY dags /opt/airflow/dags
 COPY scripts /work_dir/scripts
+COPY logs/scripts_container /app/logs
 
 RUN poetry export -f requirements.txt \
     --output requirements.txt \

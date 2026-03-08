@@ -1,0 +1,23 @@
+name: fpl
+config-version: 2
+
+profile: fpl
+
+target-path: "target"
+clean-targets: 
+  - "target"
+
+models:
+  fpl:
+
+    staging:
+      +schema: staging
+      +materialized: view
+
+    intermediate:
+      +schema: intermediate
+      +materialized: table
+
+    marts:
+      +schema: marts
+      +materialized: table

@@ -1,5 +1,0 @@
-sources:
-  - name: fpl_api
-    schema: public
-    tables:
-      - name: fpl_api__raw_landing

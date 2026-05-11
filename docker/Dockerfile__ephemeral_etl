@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+WORKDIR /opt/app
+
+# system deps (optional but commonly needed)
+RUN apt-get update && apt-get install -y \
+    openjdk-17-jre-headless \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# install poetry
+RUN pip install poetry
+
+COPY pyproject.toml poetry.lock ./
+
+RUN poetry config virtualenvs.create false \
+ && poetry install --no-interaction --no-ansi
+
+COPY . .
+
+ENV PYTHONPATH=/opt/app

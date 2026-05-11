@@ -1,0 +1,5 @@
+.env
+.git
+.dbt
+venv
+.venv

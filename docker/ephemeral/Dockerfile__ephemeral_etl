@@ -2,20 +2,20 @@ FROM python:3.12-slim
 
 WORKDIR /opt/app
 
-# system deps (optional but commonly needed)
 RUN apt-get update && apt-get install -y \
-    openjdk-17-jre-headless \
+    openjdk-21-jre \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# install poetry
-RUN pip install poetry
+RUN pip install --no-cache-dir poetry
 
-COPY pyproject.toml poetry.lock ./
+COPY python/etl__project/pyproject.toml python/etl__project/poetry.lock .
 
-RUN poetry config virtualenvs.create false \
- && poetry install --no-interaction --no-ansi
+RUN poetry install --no-root \
+ && rm -rf /root/.cache/pypoetry
 
-COPY . .
+COPY python/src .
 
 ENV PYTHONPATH=/opt/app
+
+CMD ["tail", "-f", "/dev/null"]

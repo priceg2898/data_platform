@@ -1,0 +1,1 @@
+docker compose -f docker/long_running/minio/docker-compose.yaml down -v

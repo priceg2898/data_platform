@@ -14,13 +14,6 @@ Detailed notes here.
 </details>
 
 
-```mermaid
-flowchart LR
-    UI --> API
-    API --> DB
-
-
-
 ---
 
 ## Frontmatter metadata

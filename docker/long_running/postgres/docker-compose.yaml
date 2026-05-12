@@ -1,0 +1,27 @@
+networks:
+  data_platform:
+    external: true
+
+services:
+  postgres1:
+    image: postgres:16
+    container_name: postgres1
+    networks:
+      - data_platform
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: greg
+      POSTGRES_PASSWORD: greg1
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres1-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "greg"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+    restart: always
+
+volumes:
+  postgres1-volume:

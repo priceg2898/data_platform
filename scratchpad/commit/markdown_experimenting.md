@@ -14,15 +14,12 @@ Detailed notes here.
 </details>
 
 
----
+flowchart TD
+    A[Developer Builds Docker Image] --> B[Docker Image]
+    B --> C[Developer Laptop]
+    B --> D[QA Server]
+    B --> E[Production Server]
 
-## Frontmatter metadata
-
-Useful if you later automate things.
-
-```md
----
-owner: sam
-status: active
-priority: high
----
+    C --> F[Same Container]
+    D --> F
+    E --> F

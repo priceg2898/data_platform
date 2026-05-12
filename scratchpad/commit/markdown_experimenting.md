@@ -5,6 +5,9 @@
 
 - [ ] task 1
 - [x] task 2
+  - [ ] task 2a
+  - [ ] ~~task 2b~~
+
 
 <details>
 <summary>Implementation notes</summary>
@@ -14,12 +17,25 @@ Detailed notes here.
 </details>
 
 
-flowchart TD
-    A[Developer Builds Docker Image] --> B[Docker Image]
-    B --> C[Developer Laptop]
-    B --> D[QA Server]
-    B --> E[Production Server]
+```mermaid
+sequenceDiagram
+    User->>Server: Request
+    Server-->>User: Response
+```
 
-    C --> F[Same Container]
-    D --> F
-    E --> F
+```mermaid
+stateDiagram-v2
+    [*] --> Running
+    Running --> Stopped
+```
+
+```mermaid
+classDiagram
+    Animal <|-- Dog
+```
+
+
+```mermaid
+flowchart LR
+A-->B
+```

@@ -5,8 +5,6 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
-
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/priceg2898/data_platform">
@@ -14,35 +12,9 @@
   </a>
 
   <h3 align="center">Code-First Data Platform</h3>
-
-<!--
-  <p align="center">
-    <br />
-    <a href="https://github.com/priceg2898/data_platform"><strong>Explore the docs »</strong></a>
-    <br />
-  </p>
 </div>
--->
 
 
-<!-- TABLE OF CONTENTS 
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
--->
-
-
-<!-- ABOUT THE PROJECT -->
 ## About The Project
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://airflow.apache.org/) -->

@@ -10,7 +10,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/priceg2898/data_platform">
-    <img src="images/icons/coins.png" alt="Logo" width="80" height="80">
+    <img src=".github/images/icons/coins.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Best-README-Template</h3>
@@ -44,7 +44,6 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -131,9 +130,9 @@ _Below is an example of how you can instruct your audience on installing and set
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+TBC
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+<!-- _For more examples, please refer to the [Documentation](https://example.com)_ -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -156,21 +155,12 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 
 
 
-<!-- LICENSE -->
-## License
-
-Distributed under the Unlicense License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Greg Price - priceg2898@gmail.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/priceg2898/data_platform](https://github.com/priceg2898/data_platform)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -180,7 +170,7 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 ## Acknowledgments
 
 * [README.MD Template](https://github.com/othneildrew/Best-README-Template)
-* [Icons](https://www.flaticon.com/free-icon-font)
+* [Icons](https://www.flaticon.com)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -190,4 +180,4 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/greg-price-ba0828332
-[product-screenshot]: images/screenshots/airflow_example.png
+[product-screenshot]: .github/images/screenshots/airflow_example.png

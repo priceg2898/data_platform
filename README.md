@@ -20,7 +20,7 @@
 <!-- [![Product Name Screen Shot][product-screenshot]](https://airflow.apache.org/) -->
 
 ### A Code-First Data Platform built from scratch
-#### Everything should be a text file
+> #### Everything should be a text file
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

@@ -13,18 +13,19 @@
     <img src=".github/images/icons/coins.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">Code-First Data Platform</h3>
 
+<!--
   <p align="center">
     <br />
     <a href="https://github.com/priceg2898/data_platform"><strong>Explore the docs »</strong></a>
     <br />
   </p>
 </div>
+-->
 
 
-
-<!-- TABLE OF CONTENTS -->
+<!-- TABLE OF CONTENTS 
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -38,7 +39,7 @@
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
-
+-->
 
 
 <!-- ABOUT THE PROJECT -->
@@ -53,12 +54,12 @@
 
 
 
-### Built With
+## Built With
 * Python
 * Docker
 * Apache Airflow
 
-#### Future tooling
+#### Future tooling and plans
 * dbt
 * Spark
 * AWS
@@ -71,10 +72,6 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- CONTACT -->
 ## Contact
 
 Greg Price - priceg2898@gmail.com

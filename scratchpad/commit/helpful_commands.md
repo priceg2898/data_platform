@@ -1,8 +1,5 @@
-`docker compose -f docker/long_running/minio/docker-compose.yaml down -v`
-: docker compose while passing a filepath
+`docker compose -f docker/long_running/minio/docker-compose.yaml down -v` | docker compose while passing a filepath
 
-`docker build -f ./docker/ephemeral/Dockerfile__ephemeral_etl -t ephemeral_etl .`
-: build a docker image based on a Dockerfile, container name, and build context
+`docker build -f ./docker/ephemeral/Dockerfile__ephemeral_etl -t ephemeral_etl .` | build a docker image based on a Dockerfile, container name, and build context
 
-`du -h / | sort -h | tail -30`
-: bash command to display size of files, sort highest to lowest, and return the last 30 rows
+`du -h / | sort -h | tail -30` | bash command to display size of files, sort highest to lowest, and return the last 30 rows

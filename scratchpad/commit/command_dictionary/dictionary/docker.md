@@ -9,8 +9,5 @@
 | `docker volume prune` | Remove usused volumes |
 | `docker network prune` | Remove unused networks |
 | `docker system prune -a --volumes` | Aggressive cleanup |
-| ```bash
-docker system prune -af
-docker builder prune -af
-``` | Common CI cleanup |
+| `docker system prune -af && docker builder prune -af` | Common CI cleanup |
 

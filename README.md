@@ -11,7 +11,7 @@
     <img src=".github/images/icons/coins.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Code-First Data Platform</h3>
+  <h3 align="center">Data Platform</h3>
 </div>
 
 
@@ -19,8 +19,8 @@
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://airflow.apache.org/) -->
 
-### A Code-First Data Platform built from scratch
-> #### Everything should be a text file
+### Data Platform built from scratch
+> #### A code-first, version-controlled data engineering approach
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

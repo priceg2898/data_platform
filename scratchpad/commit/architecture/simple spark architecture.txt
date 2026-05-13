@@ -1,0 +1,101 @@
+This Is The Important Insight
+
+Databricks compatibility comes much more from:
+
+Spark APIs
+Delta semantics
+object storage architecture
+
+than from:
+
+Kubernetes
+Spark Operator
+distributed clusters
+
+So you can defer a lot of infra complexity safely.
+
+
+
+
+
+docker compose
+ ├── airflow
+ ├── postgres
+ ├── minio
+ └── supporting infra
+
+Airflow launches:
+  ephemeral Spark runtime containers
+
+Inside container:
+  Spark local[*]
+
+
+
+
+
+FROM python:3.12
+
+WORKDIR /opt/app
+
+COPY pyproject.toml poetry.lock ./
+
+RUN pip install poetry && \
+    poetry config virtualenvs.create false && \
+    poetry install
+
+COPY . .
+
+ENV PYTHONPATH=/opt/app
+
+
+
+
+
+spark = (
+    SparkSession.builder
+    .appName("customer-etl")
+    .master("local[*]")
+    .config(
+        "spark.sql.extensions",
+        "io.delta.sql.DeltaSparkSessionExtension"
+    )
+    .config(
+        "spark.sql.catalog.spark_catalog",
+        "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+    )
+    .getOrCreate()
+)
+
+
+
+
+from pyspark.sql import SparkSession
+
+spark = (
+    SparkSession.builder
+    .appName("etl")
+    .master("local[*]")
+    .config(
+        "spark.sql.extensions",
+        "io.delta.sql.DeltaSparkSessionExtension"
+    )
+    .config(
+        "spark.sql.catalog.spark_catalog",
+        "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+    )
+    .getOrCreate()
+)
+
+
+
+
+
+.config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000")
+.config("spark.hadoop.fs.s3a.access.key", "minio")
+.config("spark.hadoop.fs.s3a.secret.key", "minio123")
+.config("spark.hadoop.fs.s3a.path.style.access", "true")
+.config("spark.hadoop.fs.s3a.impl",
+        "org.apache.hadoop.fs.s3a.S3AFileSystem")
+
+

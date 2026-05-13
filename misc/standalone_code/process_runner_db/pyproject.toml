@@ -1,0 +1,15 @@
+[project]
+name = "process-runner-db"
+version = "0.1.0"
+description = ""
+authors = [{email = "greg.price@unipartrail.com"}]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["sqlalchemy (>=2.0.48,<3.0.0)", "pyodbc (>=5.3.0,<6.0.0)", "dotenv (>=0.9.9,<0.10.0)", "croniter (>=6.2.2,<7.0.0)", "pandas (>=3.0.1,<4.0.0)"]
+
+[tool.poetry]
+packages = [{ include = "process_runner_db", from = "python" }]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

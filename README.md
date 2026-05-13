@@ -4,7 +4,7 @@
 <!-- PROJECT SHIELDS -->
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-
+<!--
 <br />
 <div align="center">
   <a href="https://github.com/priceg2898/data_platform">
@@ -13,13 +13,12 @@
 
   <h3 align="center">Data Platform</h3>
 </div>
+-->
 
-
-## About The Project
+## Data Platform built from scratch
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://airflow.apache.org/) -->
 
-### Data Platform built from scratch
 > #### A code-first, version-controlled data engineering approach
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

@@ -30,15 +30,18 @@
 * Python
 * Docker
 * Apache Airflow
+* Postgres
 
 #### Future tooling and plans
 * dbt
-* Spark
+* PySpark
 * AWS
 * Terraform
 * Dagster
 * CI/CD
+* IaC
 * DuckDB
+* Databricks
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

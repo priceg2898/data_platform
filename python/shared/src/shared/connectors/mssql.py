@@ -1,13 +1,14 @@
 import pyodbc
 from contextlib import contextmanager
 
+
 @contextmanager
 def mssql_connection(
     server: str,
     database: str,
     username: str,
     password: str,
-    driver: str = "ODBC Driver 18 for SQL Server"
+    driver: str = "ODBC Driver 18 for SQL Server",
 ):
     conn_str = (
         f"DRIVER={{{driver}}};"
@@ -28,10 +29,11 @@ def mssql_connection(
     finally:
         conn.close()
 
+
 def j211_conn():
     return mssql_connection(
         server="J211.unipartrail.local",
         database="T1_Control",
         username="QlikSense_Admin",
-        password="J2dGwTZeyNbU8DKE"
+        password="J2dGwTZeyNbU8DKE",
     )

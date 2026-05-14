@@ -11,7 +11,7 @@ TABLE_CONFIGS = [
         keys=["MANDT", "MATNR"],
         where_clause=None,
         cadence="daily",
-        dataset="materials"
+        dataset="materials",
     ),
     TableConfig(
         id="j211__MM_SAP_DS_MVKE",
@@ -22,7 +22,7 @@ TABLE_CONFIGS = [
         keys=["MANDT", "MATNR"],
         where_clause=None,
         cadence="daily",
-        dataset="materials"
+        dataset="materials",
     ),
     TableConfig(
         id="j211__MM_SAP_DS_MARC",
@@ -33,7 +33,7 @@ TABLE_CONFIGS = [
         keys=["MANDT", "MATNR", "WERKS"],
         where_clause=None,
         cadence="daily",
-        dataset="materials"
+        dataset="materials",
     ),
     TableConfig(
         id="j211__SD_SAP_DS_VBAK",
@@ -44,7 +44,7 @@ TABLE_CONFIGS = [
         keys=["VBELN"],
         where_clause=None,
         cadence="fast",
-        dataset="sales_orders"
+        dataset="sales_orders",
     ),
     TableConfig(
         id="j211__SD_SAP_DS_VBAP",
@@ -55,7 +55,7 @@ TABLE_CONFIGS = [
         keys=["MANDT", "VBELN", "POSNR"],
         where_clause=None,
         cadence="fast",
-        dataset="sales_orders"
+        dataset="sales_orders",
     ),
     TableConfig(
         id="j211__J8329_OTIF_History",
@@ -66,7 +66,7 @@ TABLE_CONFIGS = [
         keys=["SO", "SOI"],
         where_clause=None,
         cadence="daily",
-        dataset="otif"
+        dataset="otif",
     ),
     TableConfig(
         id="j211__J8391_Backorders_v2_Historic",
@@ -77,7 +77,7 @@ TABLE_CONFIGS = [
         keys=["SO", "SOI", "InsertedDate"],
         where_clause=None,
         cadence="daily",
-        dataset="otif"
+        dataset="otif",
     ),
     TableConfig(
         id="j211__temp_gp_load_test",
@@ -88,6 +88,6 @@ TABLE_CONFIGS = [
         keys=["ID"],
         where_clause=None,
         cadence="fast",
-        dataset="test"
+        dataset="test",
     ),
 ]

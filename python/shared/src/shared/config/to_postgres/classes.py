@@ -11,5 +11,5 @@ class TableConfig:
     target_table: str
     keys: List[str]
     where_clause: Optional[str]
-    cadence: str        # fast | daily
-    dataset: str     # logical dataset name
+    cadence: str  # fast | daily
+    dataset: str  # logical dataset name

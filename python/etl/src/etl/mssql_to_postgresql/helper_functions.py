@@ -11,6 +11,7 @@ def build_key_where_template(key_columns):
         conditions.append("(" + " AND ".join(parts) + ")")
     return " AND (" + " OR ".join(conditions) + ")"
 
+
 def build_key_params(key_columns, last_keys):
     params = []
     for i in range(len(key_columns)):
@@ -19,7 +20,15 @@ def build_key_params(key_columns, last_keys):
         params.append(last_keys[key_columns[i]])
     return params
 
-def extract_mssql_chunks(conn, table_name__full, table_name__short, key_columns, where_clause="", chunk_size=100000):
+
+def extract_mssql_chunks(
+    conn,
+    table_name__full,
+    table_name__short,
+    key_columns,
+    where_clause="",
+    chunk_size=100000,
+):
     last_keys = None
     while True:
         sql = f"""
@@ -46,19 +55,19 @@ def extract_mssql_chunks(conn, table_name__full, table_name__short, key_columns,
                 break
             last_row = json_strings[-1]
             parsed = json.loads(last_row)
-            last_keys = {
-                col: parsed.get(col)
-                for col in key_columns
-            }
+            last_keys = {col: parsed.get(col) for col in key_columns}
         for json_str in json_strings:
-            parsed = json.loads(json_str) 
-            sub_json = {k: parsed[k] for k in key_columns if k in parsed}  
+            parsed = json.loads(json_str)
+            sub_json = {k: parsed[k] for k in key_columns if k in parsed}
             business_keys_json = json.dumps(sub_json, separators=(",", ":"))
-            metadata.append((
-                table_name__short,
-                business_keys_json,
-            ))
+            metadata.append(
+                (
+                    table_name__short,
+                    business_keys_json,
+                )
+            )
         yield metadata, json_strings
+
 
 '''
 def get_columns(conn, schema, table):

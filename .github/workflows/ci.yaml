@@ -18,8 +18,3 @@ jobs:
         run: ruff check .
       - name: Check formatting
         run: ruff format --check .
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: echo "Hello world"

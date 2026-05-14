@@ -1,7 +1,7 @@
 # Python Dev Standards
 
 | Package | Description | Philosophy |
-|---|---|
+| -------- | -----------|-----------|
 | Ruff | Linter that checks and enforces code quality and standard dev practice | Enforce fast, opinionated code quality checks so bad code is caught immediately and formatting debates disappear |
 | PyTest | Unit tests Functions, Classes, Methods, Modules, API Endpoints, CLI Tools | Code should be modular, side-effect isolated, deterministic |
 | pytest-cov | Ensures code is covered by PyTest | Make test coverage visible and measurable so untested code can’t quietly accumulate |

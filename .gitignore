@@ -2,6 +2,7 @@ __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
+*.ruff_cache
 *.egg-info/
 dist/
 build/

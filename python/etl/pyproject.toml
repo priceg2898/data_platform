@@ -25,6 +25,7 @@ boto3 = "^1.43.6"
 pyarrow = "^24.0.0"
 pydantic = "^2.13.4"
 loguru = "^0.7.3"
+pytest = "^9.0.3"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

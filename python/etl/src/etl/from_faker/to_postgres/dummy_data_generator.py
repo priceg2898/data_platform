@@ -2,7 +2,7 @@ import time
 import random
 from faker import Faker
 import psycopg2
-from datetime import datetime, timezone
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 fake = Faker()
@@ -15,14 +15,14 @@ brands = {
     "Clothing": ["Nike", "Adidas", "Uniqlo", "H&M"],
     "Home": ["Ikea", "HomeDepot", "Wayfair"],
     "Toys": ["Lego", "Mattel", "Hasbro"],
-    "Books": ["Penguin", "HarperCollins", "Random House"]
+    "Books": ["Penguin", "HarperCollins", "Random House"],
 }
 price_ranges = {
     "Electronics": (100, 2000),
     "Clothing": (10, 200),
     "Home": (20, 1000),
     "Toys": (5, 150),
-    "Books": (5, 50)
+    "Books": (5, 50),
 }
 
 countries = ["USA", "UK", "Canada", "Germany", "Australia"]
@@ -32,12 +32,10 @@ account_weights = [60, 30, 10]
 
 # --- PostgreSQL connection ---
 conn = psycopg2.connect(
-    host="postgres1",
-    database="postgres",
-    user="greg",
-    password="greg1"
+    host="postgres1", database="postgres", user="greg", password="greg1"
 )
 cur = conn.cursor()
+
 
 # --- Product generator ---
 def generate_product():
@@ -48,6 +46,7 @@ def generate_product():
     sku = fake.unique.bothify(text="??-#####")
     return name, category, brand, price, sku
 
+
 # --- User generator ---
 def generate_user():
     name = fake.name()
@@ -56,6 +55,7 @@ def generate_user():
     country = random.choices(countries, weights=country_weights, k=1)[0]
     account_type = random.choices(account_types, weights=account_weights, k=1)[0]
     return name, email, age, country, account_type
+
 
 # --- Update product ---
 def update_product(max_id):
@@ -66,23 +66,43 @@ def update_product(max_id):
 
     if field == "price":
         new_price = round(random.uniform(5, 2000), 2)
-        cur.execute("UPDATE products SET price=%s, updated_at=%s WHERE id=%s", (new_price, datetime.now(ZoneInfo("Europe/London")), update_id))
+        cur.execute(
+            "UPDATE products SET price=%s, updated_at=%s WHERE id=%s",
+            (new_price, datetime.now(ZoneInfo("Europe/London")), update_id),
+        )
         print(f"Updated product {update_id} price: {new_price}")
     elif field == "category":
         new_category = random.choices(categories, weights=category_weights, k=1)[0]
         new_brand = random.choice(brands[new_category])
-        cur.execute("UPDATE products SET category=%s, brand=%s, updated_at=%s WHERE id=%s", (new_category, new_brand, datetime.now(ZoneInfo("Europe/London")), update_id))
-        print(f"Updated product {update_id} category: {new_category}, brand: {new_brand}")
+        cur.execute(
+            "UPDATE products SET category=%s, brand=%s, updated_at=%s WHERE id=%s",
+            (
+                new_category,
+                new_brand,
+                datetime.now(ZoneInfo("Europe/London")),
+                update_id,
+            ),
+        )
+        print(
+            f"Updated product {update_id} category: {new_category}, brand: {new_brand}"
+        )
     elif field == "brand":
         cur.execute("SELECT category FROM products WHERE id=%s", (update_id,))
         category = cur.fetchone()[0]
         new_brand = random.choice(brands[category])
-        cur.execute("UPDATE products SET brand=%s, updated_at=%s WHERE id=%s", (new_brand, datetime.now(ZoneInfo("Europe/London")), update_id))
+        cur.execute(
+            "UPDATE products SET brand=%s, updated_at=%s WHERE id=%s",
+            (new_brand, datetime.now(ZoneInfo("Europe/London")), update_id),
+        )
         print(f"Updated product {update_id} brand: {new_brand}")
     elif field == "sku":
         new_sku = fake.unique.bothify(text="??-#####")
-        cur.execute("UPDATE products SET sku=%s, updated_at=%s WHERE id=%s", (new_sku, datetime.now(ZoneInfo("Europe/London")), update_id))
+        cur.execute(
+            "UPDATE products SET sku=%s, updated_at=%s WHERE id=%s",
+            (new_sku, datetime.now(ZoneInfo("Europe/London")), update_id),
+        )
         print(f"Updated product {update_id} sku: {new_sku}")
+
 
 # --- Update user ---
 def update_user(max_id):
@@ -93,16 +113,26 @@ def update_user(max_id):
 
     if field == "age":
         new_age = random.randint(18, 70)
-        cur.execute("UPDATE users SET age=%s, updated_at=%s WHERE id=%s", (new_age, datetime.now(ZoneInfo("Europe/London")), update_id))
+        cur.execute(
+            "UPDATE users SET age=%s, updated_at=%s WHERE id=%s",
+            (new_age, datetime.now(ZoneInfo("Europe/London")), update_id),
+        )
         print(f"Updated user {update_id} age: {new_age}")
     elif field == "country":
         new_country = random.choices(countries, weights=country_weights, k=1)[0]
-        cur.execute("UPDATE users SET country=%s, updated_at=%s WHERE id=%s", (new_country, datetime.now(ZoneInfo("Europe/London")), update_id))
+        cur.execute(
+            "UPDATE users SET country=%s, updated_at=%s WHERE id=%s",
+            (new_country, datetime.now(ZoneInfo("Europe/London")), update_id),
+        )
         print(f"Updated user {update_id} country: {new_country}")
     elif field == "account_type":
         new_type = random.choices(account_types, weights=account_weights, k=1)[0]
-        cur.execute("UPDATE users SET account_type=%s, updated_at=%s WHERE id=%s", (new_type, datetime.now(ZoneInfo("Europe/London")), update_id))
+        cur.execute(
+            "UPDATE users SET account_type=%s, updated_at=%s WHERE id=%s",
+            (new_type, datetime.now(ZoneInfo("Europe/London")), update_id),
+        )
         print(f"Updated user {update_id} account_type: {new_type}")
+
 
 # --- Main loop ---
 try:
@@ -117,17 +147,35 @@ try:
         # --- Insert new products ---
         for _ in range(5):
             name, category, brand, price, sku = generate_product()
-            cur.execute("INSERT INTO products (name, category, brand, price, sku, updated_at) VALUES (%s,%s,%s,%s,%s,%s)",
-                        (name, category, brand, price, sku, datetime.now(ZoneInfo("Europe/London"))))
+            cur.execute(
+                "INSERT INTO products (name, category, brand, price, sku, updated_at) VALUES (%s,%s,%s,%s,%s,%s)",
+                (
+                    name,
+                    category,
+                    brand,
+                    price,
+                    sku,
+                    datetime.now(ZoneInfo("Europe/London")),
+                ),
+            )
 
         # --- Insert new users ---
         for _ in range(5):
             name, email, age, country, account_type = generate_user()
-            cur.execute("INSERT INTO users (name,email,age,country,account_type, updated_at) VALUES (%s,%s,%s,%s,%s,%s)",
-                        (name, email, age, country, account_type, datetime.now(ZoneInfo("Europe/London"))))
+            cur.execute(
+                "INSERT INTO users (name,email,age,country,account_type, updated_at) VALUES (%s,%s,%s,%s,%s,%s)",
+                (
+                    name,
+                    email,
+                    age,
+                    country,
+                    account_type,
+                    datetime.now(ZoneInfo("Europe/London")),
+                ),
+            )
 
         conn.commit()
-        print(f"Inserted 5 products and 5 users.")
+        print("Inserted 5 products and 5 users.")
 
         # --- Update 1 old product & user ---
         if max_product_id > 0:

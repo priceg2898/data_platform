@@ -1,21 +1,16 @@
-import os
 import psycopg2
 from contextlib import contextmanager
 
 
 @contextmanager
-def postgres_connection(
-    host,
-    port,
-    user,
-    password,
-    dbname):
+def postgres_connection(host, port, user, password, dbname):
     conn = psycopg2.connect(
         host=host,
         port=port,
         user=user,
         password=password,
-        dbname=dbname,)
+        dbname=dbname,
+    )
     try:
         yield conn
         conn.commit()
@@ -25,13 +20,16 @@ def postgres_connection(
     finally:
         conn.close()
 
+
 def pg_data_warehouse_conn():
     return postgres_connection(
         host="d2026.unipartrail.local",
         port=5433,
         user="admin",
         password="MileyHalifax16!",
-        dbname="data_warehouse")
+        dbname="data_warehouse",
+    )
+
 
 @contextmanager
 def postgres_cursor(conn):
